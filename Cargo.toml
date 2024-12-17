@@ -1,5 +1,12 @@
-[package]
-name = "unity-of-duality"
+[workspace]
+members = [
+    "app",
+    "positive"
+]
+
+resolver = "2"
+default-members = ["app"]
+
+[workspace.package]
 version = "0.1.0"
 edition = "2021"
-

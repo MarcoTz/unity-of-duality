@@ -1,0 +1,11 @@
+[package]
+name = "unity"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "unity"
+path = "src/main.rs"
+
+[dependencies]
+positive = { path = "../positive" }
