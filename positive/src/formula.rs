@@ -93,7 +93,7 @@ impl From<Atom> for Formula {
 impl fmt::Display for Formula {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Formula::Atom(at) => f.write_str(&at),
+            Formula::Atom(at) => f.write_str(at),
             Formula::One => f.write_str("1"),
             Formula::Tensor(f1, f2) => write!(f, "({f1}) ⊗ ({f2})"),
             Formula::Zero => f.write_str("0"),

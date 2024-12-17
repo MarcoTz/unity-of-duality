@@ -1,5 +1,5 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::{context::Context, formula::Formula, linear_context::LinearContext};
+use crate::{context::Context, formula::Formula};
 
 pub struct FormFalse {
     context: Context,

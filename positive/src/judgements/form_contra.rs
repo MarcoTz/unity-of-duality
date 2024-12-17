@@ -31,7 +31,7 @@ impl Judgement for FormContra {
         let (ctx_left, judgement) = premise_left.clone().as_contains()?;
         let form_left = judgement.as_false()?;
 
-        let premise_right = premises.get(0).unwrap();
+        let premise_right = premises.get(1).unwrap();
         let (ctx_right, form_right) = premise_right.clone().as_triv()?;
 
         let conc_ctx = conclusion.as_contra()?;

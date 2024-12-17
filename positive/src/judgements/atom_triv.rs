@@ -15,7 +15,6 @@ impl Judgement for TrivAtom {
             ContextJudgement::Triv(self.atom.clone()).into(),
             self.atom.clone().into(),
         )
-        .into()
     }
 
     fn kind(&self) -> JudgementKind {
