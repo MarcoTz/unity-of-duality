@@ -2,6 +2,7 @@ use std::fmt;
 
 pub type Atom = String;
 
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Formula {
     Atom(Atom),
     Falsum,

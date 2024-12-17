@@ -1,11 +1,13 @@
 use super::formula::{Atom, Formula};
 use std::fmt;
 
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ContextJudgement {
     Absurd(Atom),
     True(Formula),
 }
 
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub struct LinearContext {
     pub judgements: Vec<ContextJudgement>,
 }
