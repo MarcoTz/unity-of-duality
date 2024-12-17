@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "negative"
+version = "0.1.0"
+
+[[package]]
 name = "nonpolar"
 version = "0.1.0"
 dependencies = [
@@ -17,6 +21,7 @@ version = "0.1.0"
 name = "unity"
 version = "0.1.0"
 dependencies = [
+ "negative",
  "nonpolar",
  "positive",
 ]

@@ -10,3 +10,4 @@ path = "src/main.rs"
 [dependencies]
 positive = { path = "../positive" }
 nonpolar = { path = "../nonpolar" }
+negative = { path = "../negative" }
