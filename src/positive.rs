@@ -1,4 +1,7 @@
-use crate::context::{ContextJudgement, LinearContext};
+use crate::{
+    context::{ContextJudgement, LinearContext},
+    negative::Formula as NegativeFormula,
+};
 use std::fmt;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -14,6 +17,7 @@ pub enum Formula {
     Zero,
     Plus(Box<Formula>, Box<Formula>),
     NegV(Box<Formula>),
+    Shift(Box<NegativeFormula>),
 }
 
 impl Formula {
@@ -27,6 +31,10 @@ impl Formula {
 
     pub fn negv(f: Formula) -> Formula {
         Formula::NegV(Box::new(f))
+    }
+
+    pub fn shift(f: NegativeFormula) -> Formula {
+        Formula::Shift(Box::new(f))
     }
 
     pub fn as_atm(self) -> Option<PositiveAtom> {
@@ -61,6 +69,14 @@ impl Formula {
         }
     }
 
+    pub fn as_shift(self) -> Option<NegativeFormula> {
+        if let Formula::Shift(f) = self {
+            Some(*f)
+        } else {
+            None
+        }
+    }
+
     pub fn support(self) -> Vec<LinearContext> {
         match self {
             Formula::Atom(at) => vec![ContextJudgement::Triv(at).into()],
@@ -83,6 +99,7 @@ impl Formula {
                 contexts
             }
             Formula::NegV(f) => vec![ContextJudgement::False(*f).into()],
+            Formula::Shift(f) => vec![ContextJudgement::True(*f).into()],
         }
     }
 }
@@ -108,6 +125,7 @@ impl fmt::Display for Formula {
             Formula::Zero => f.write_str("0"),
             Formula::Plus(f1, f2) => write!(f, "({f1} ⊕ ({f2})"),
             Formula::NegV(f1) => write!(f, "v¬({f1})"),
+            Formula::Shift(f1) => write!(f, "↓({f1})"),
         }
     }
 }

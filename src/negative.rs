@@ -1,4 +1,7 @@
-use crate::context::{ContextJudgement, LinearContext};
+use crate::{
+    context::{ContextJudgement, LinearContext},
+    positive::Formula as PositiveFormula,
+};
 use std::fmt;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -14,6 +17,7 @@ pub enum Formula {
     Truth,
     Par(Box<Formula>, Box<Formula>),
     NegN(Box<Formula>),
+    Shift(Box<PositiveFormula>),
 }
 
 impl Formula {
@@ -27,6 +31,10 @@ impl Formula {
 
     pub fn negn(f: Formula) -> Formula {
         Formula::NegN(Box::new(f))
+    }
+
+    pub fn shift(f: PositiveFormula) -> Formula {
+        Formula::Shift(Box::new(f))
     }
 
     pub fn as_atom(self) -> Option<NegativeAtom> {
@@ -61,6 +69,14 @@ impl Formula {
         }
     }
 
+    pub fn as_shift(self) -> Option<PositiveFormula> {
+        if let Formula::Shift(f) = self {
+            Some(*f)
+        } else {
+            None
+        }
+    }
+
     pub fn support(self) -> Vec<LinearContext> {
         match self {
             Formula::Atom(at) => vec![ContextJudgement::Absurd(at).into()],
@@ -83,6 +99,7 @@ impl Formula {
                 contexts
             }
             Formula::NegN(f) => vec![ContextJudgement::True(*f).into()],
+            Formula::Shift(f) => vec![ContextJudgement::False(*f).into()],
         }
     }
 }
@@ -108,6 +125,7 @@ impl fmt::Display for Formula {
             Formula::Truth => f.write_str("⊤"),
             Formula::Par(l, r) => write!(f, "({l}) ⅋ ({r})"),
             Formula::NegN(f1) => write!(f, "n¬{f1}"),
+            Formula::Shift(f1) => write!(f, "↑({f1})"),
         }
     }
 }

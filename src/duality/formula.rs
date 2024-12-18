@@ -14,6 +14,7 @@ impl Dual for FormNeg {
             FormNeg::Truth => FormPos::One,
             FormNeg::Par(l, r) => FormPos::tensor((*l).dual(), (*r).dual()),
             FormNeg::NegN(f) => FormPos::negv((*f).dual()),
+            FormNeg::Shift(f) => FormPos::shift((*f).dual()),
         }
     }
 }
@@ -28,6 +29,7 @@ impl Dual for FormPos {
             FormPos::Zero => FormNeg::Falsum,
             FormPos::Plus(l, r) => FormNeg::and((*l).dual(), (*r).dual()),
             FormPos::NegV(f) => FormNeg::negn((*f).dual()),
+            FormPos::Shift(f) => FormNeg::shift((*f).dual()),
         }
     }
 }

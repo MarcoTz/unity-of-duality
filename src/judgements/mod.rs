@@ -5,6 +5,7 @@ pub mod conclusion;
 pub mod context;
 pub mod contra;
 pub mod fls;
+pub mod shift;
 pub mod triv;
 pub mod tru;
 pub use conclusion::Conclusion;
