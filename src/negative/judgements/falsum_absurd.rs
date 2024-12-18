@@ -1,5 +1,5 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::negative::{context::Context, formula::Formula};
+use crate::{context::Context, negative::formula::Formula};
 
 pub struct FalsumAbsurd;
 
@@ -23,7 +23,7 @@ impl Judgement for FalsumAbsurd {
 
         let (ctx, form) = conclusion.as_absurd()?;
 
-        if !ctx.bindings.is_empty() {
+        if !ctx.contexts.is_empty() {
             return None;
         }
 

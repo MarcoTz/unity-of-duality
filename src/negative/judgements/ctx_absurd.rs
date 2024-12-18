@@ -1,12 +1,11 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::negative::{
-    context::Context,
-    formula::Atom,
-    linear_context::{ContextJudgement, LinearContext},
+use crate::{
+    context::{Context, ContextJudgement, LinearContext},
+    negative::formula::NegativeAtom,
 };
 
 pub struct CtxAbsurd {
-    atom: Atom,
+    atom: NegativeAtom,
     context: Context,
     linear_context: LinearContext,
 }

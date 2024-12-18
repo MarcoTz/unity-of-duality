@@ -1,5 +1,8 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::negative::{context::Context, formula::Formula, linear_context::LinearContext};
+use crate::{
+    context::{Context, LinearContext},
+    negative::formula::Formula,
+};
 
 pub struct FormAbsurd {
     premise_context: LinearContext,

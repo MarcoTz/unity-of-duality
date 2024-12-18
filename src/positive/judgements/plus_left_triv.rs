@@ -1,5 +1,5 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::positive::{formula::Formula, linear_context::LinearContext};
+use crate::{context::LinearContext, positive::formula::Formula};
 
 pub struct PlusLeftTriv {
     left_context: LinearContext,

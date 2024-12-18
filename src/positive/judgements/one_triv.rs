@@ -1,5 +1,5 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::positive::{context::Context, formula::Formula};
+use crate::{context::Context, positive::formula::Formula};
 
 pub struct OneTriv;
 

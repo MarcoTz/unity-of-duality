@@ -1,11 +1,14 @@
-use super::linear_context::{ContextJudgement, LinearContext};
+use crate::context::{ContextJudgement, LinearContext};
 use std::fmt;
 
-pub type Atom = String;
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PositiveAtom {
+    pub val: String,
+}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Formula {
-    Atom(Atom),
+    Atom(PositiveAtom),
     One,
     Tensor(Box<Formula>, Box<Formula>),
     Zero,
@@ -26,7 +29,7 @@ impl Formula {
         Formula::NegV(Box::new(f))
     }
 
-    pub fn as_atm(self) -> Option<Atom> {
+    pub fn as_atm(self) -> Option<PositiveAtom> {
         if let Formula::Atom(at) = self {
             Some(at)
         } else {
@@ -84,21 +87,33 @@ impl Formula {
     }
 }
 
-impl From<Atom> for Formula {
-    fn from(at: Atom) -> Formula {
+impl From<PositiveAtom> for Formula {
+    fn from(at: PositiveAtom) -> Formula {
         Formula::Atom(at)
+    }
+}
+
+impl From<String> for Formula {
+    fn from(s: String) -> Formula {
+        Formula::Atom(PositiveAtom { val: s })
     }
 }
 
 impl fmt::Display for Formula {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Formula::Atom(at) => f.write_str(at),
+            Formula::Atom(at) => at.fmt(f),
             Formula::One => f.write_str("1"),
             Formula::Tensor(f1, f2) => write!(f, "({f1}) ⊗ ({f2})"),
             Formula::Zero => f.write_str("0"),
             Formula::Plus(f1, f2) => write!(f, "({f1} ⊕ ({f2})"),
             Formula::NegV(f1) => write!(f, "v¬({f1})"),
         }
+    }
+}
+
+impl fmt::Display for PositiveAtom {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.write_str(&self.val)
     }
 }

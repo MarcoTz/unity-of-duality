@@ -1,5 +1,8 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::positive::{context::Context, formula::Formula, linear_context::ContextJudgement};
+use crate::{
+    context::{Context, ContextJudgement},
+    positive::formula::Formula,
+};
 
 pub struct FormContra {
     formula: Formula,

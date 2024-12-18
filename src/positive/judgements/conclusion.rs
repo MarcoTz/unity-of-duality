@@ -1,7 +1,6 @@
-use crate::positive::{
-    context::Context,
-    formula::Formula,
-    linear_context::{ContextJudgement, LinearContext},
+use crate::{
+    context::{Context, ContextJudgement, LinearContext},
+    positive::formula::Formula,
 };
 
 #[derive(Clone)]

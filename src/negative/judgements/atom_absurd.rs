@@ -1,8 +1,8 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::negative::{formula::Atom, linear_context::ContextJudgement};
+use crate::{context::ContextJudgement, negative::formula::NegativeAtom};
 
 pub struct AtomAbsurd {
-    pub atom: Atom,
+    pub atom: NegativeAtom,
 }
 
 impl Judgement for AtomAbsurd {

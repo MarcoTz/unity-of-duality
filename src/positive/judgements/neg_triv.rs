@@ -1,5 +1,5 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::positive::{formula::Formula, linear_context::ContextJudgement};
+use crate::{context::ContextJudgement, positive::formula::Formula};
 
 pub struct NegTriv {
     formula: Formula,

@@ -1,8 +1,8 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::positive::{formula::Atom, linear_context::ContextJudgement};
+use crate::{context::ContextJudgement, positive::formula::PositiveAtom};
 
 pub struct TrivAtom {
-    atom: Atom,
+    atom: PositiveAtom,
 }
 
 impl Judgement for TrivAtom {
@@ -35,7 +35,7 @@ impl Judgement for TrivAtom {
 
         let at_conc = conc.as_atm()?;
 
-        if *at_ctx == at_conc {
+        if at_ctx == at_conc {
             Some(TrivAtom { atom: at_conc })
         } else {
             None

@@ -1,5 +1,5 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::positive::{context::Context, linear_context::LinearContext};
+use crate::context::{Context, LinearContext};
 
 pub struct CtxEmpty {
     context: Context,

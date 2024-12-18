@@ -1,7 +1,6 @@
-use crate::negative::{
-    context::Context,
-    formula::Formula,
-    linear_context::{ContextJudgement, LinearContext},
+use crate::{
+    context::{Context, ContextJudgement, LinearContext},
+    negative::formula::Formula,
 };
 
 #[derive(Clone, PartialEq, Eq)]

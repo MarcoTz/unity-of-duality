@@ -1,5 +1,5 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::negative::{formula::Formula, linear_context::LinearContext};
+use crate::{context::LinearContext, negative::formula::Formula};
 
 pub struct AndAbsurdRight {
     formula_left: Formula,

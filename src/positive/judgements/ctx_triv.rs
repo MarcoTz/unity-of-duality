@@ -1,12 +1,11 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::positive::{
-    context::Context,
-    formula::Atom,
-    linear_context::{ContextJudgement, LinearContext},
+use crate::{
+    context::{Context, ContextJudgement, LinearContext},
+    positive::formula::PositiveAtom,
 };
 
 pub struct CtxTriv {
-    atom: Atom,
+    atom: PositiveAtom,
     linear_context: LinearContext,
     context: Context,
 }

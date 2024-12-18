@@ -1,5 +1,8 @@
 use super::{Conclusion, Judgement, JudgementKind};
-use crate::positive::{context::Context, formula::Formula, linear_context::LinearContext};
+use crate::{
+    context::{Context, LinearContext},
+    positive::formula::Formula,
+};
 
 pub struct TensorTriv {
     context_left: LinearContext,
