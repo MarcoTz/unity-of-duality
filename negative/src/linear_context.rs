@@ -7,9 +7,53 @@ pub enum ContextJudgement {
     True(Formula),
 }
 
+impl ContextJudgement {
+    pub fn as_absurd(self) -> Option<Atom> {
+        if let ContextJudgement::Absurd(at) = self {
+            Some(at)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_true(self) -> Option<Formula> {
+        if let ContextJudgement::True(form) = self {
+            Some(form)
+        } else {
+            None
+        }
+    }
+}
+
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub struct LinearContext {
     pub judgements: Vec<ContextJudgement>,
+}
+
+impl LinearContext {
+    pub fn append(self, other: LinearContext) -> LinearContext {
+        let mut new_judgements = self.judgements;
+        new_judgements.extend(other.judgements);
+        LinearContext {
+            judgements: new_judgements,
+        }
+    }
+
+    pub fn add_absurd(self, at: Atom) -> LinearContext {
+        let mut new_judgements = self.judgements;
+        new_judgements.push(ContextJudgement::Absurd(at));
+        LinearContext {
+            judgements: new_judgements,
+        }
+    }
+
+    pub fn add_true(self, f: Formula) -> LinearContext {
+        let mut new_judgements = self.judgements;
+        new_judgements.push(ContextJudgement::True(f));
+        LinearContext {
+            judgements: new_judgements,
+        }
+    }
 }
 
 impl From<ContextJudgement> for LinearContext {
