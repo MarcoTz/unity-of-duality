@@ -1,7 +1,7 @@
 use crate::{
     context::Context,
     judgements::{Conclusion, Judgement, JudgementKind},
-    positive::formula::Formula,
+    positive::Formula,
 };
 
 pub struct OneTriv;

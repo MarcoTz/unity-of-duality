@@ -1,7 +1,7 @@
 use crate::{
     context::{Context, ContextJudgement, LinearContext},
     judgements::{Conclusion, Judgement, JudgementKind},
-    negative::formula::NegativeAtom,
+    negative::NegativeAtom,
 };
 
 pub struct CtxAbsurd {

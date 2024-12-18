@@ -1,7 +1,7 @@
 use crate::{
     context::ContextJudgement,
     judgements::{Conclusion, Judgement, JudgementKind},
-    negative::formula::NegativeAtom,
+    negative::NegativeAtom,
 };
 
 pub struct AtomAbsurd {

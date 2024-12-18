@@ -1,7 +1,7 @@
 use super::Dual;
 use crate::{
-    negative::formula::{Formula as FormNeg, NegativeAtom},
-    positive::formula::{Formula as FormPos, PositiveAtom},
+    negative::{Formula as FormNeg, NegativeAtom},
+    positive::{Formula as FormPos, PositiveAtom},
 };
 
 impl Dual for FormNeg {

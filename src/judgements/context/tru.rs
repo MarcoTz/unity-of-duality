@@ -1,7 +1,7 @@
 use crate::{
     context::{Context, LinearContext},
     judgements::{Conclusion, Judgement, JudgementKind},
-    negative::formula::Formula,
+    negative::Formula,
 };
 
 pub struct CtxTrue {

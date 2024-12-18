@@ -1,7 +1,7 @@
 use crate::{
     context::ContextJudgement,
     judgements::{Conclusion, Judgement, JudgementKind},
-    positive::formula::PositiveAtom,
+    positive::PositiveAtom,
 };
 
 pub struct TrivAtom {

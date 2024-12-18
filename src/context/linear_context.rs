@@ -1,7 +1,7 @@
 use super::{Context, ContextJudgement};
 use crate::{
-    negative::formula::{Formula as NegativeFormula, NegativeAtom},
-    positive::formula::{Formula as PositiveFormula, PositiveAtom},
+    negative::{Formula as NegativeFormula, NegativeAtom},
+    positive::{Formula as PositiveFormula, PositiveAtom},
 };
 use std::fmt;
 

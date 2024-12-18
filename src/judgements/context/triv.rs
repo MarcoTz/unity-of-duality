@@ -1,7 +1,7 @@
 use crate::{
     context::{Context, ContextJudgement, LinearContext},
     judgements::{Conclusion, Judgement, JudgementKind},
-    positive::formula::PositiveAtom,
+    positive::PositiveAtom,
 };
 
 pub struct CtxTriv {

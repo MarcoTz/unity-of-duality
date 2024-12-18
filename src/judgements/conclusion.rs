@@ -1,7 +1,7 @@
 use crate::{
     context::{Context, ContextJudgement, LinearContext},
-    negative::formula::Formula as FormulaNeg,
-    positive::formula::Formula as FormulaPos,
+    negative::Formula as FormulaNeg,
+    positive::Formula as FormulaPos,
 };
 
 #[derive(Clone, PartialEq, Eq)]
