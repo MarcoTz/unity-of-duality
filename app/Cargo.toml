@@ -11,3 +11,4 @@ path = "src/main.rs"
 positive = { path = "../positive" }
 nonpolar = { path = "../nonpolar" }
 negative = { path = "../negative" }
+duality = { path = "../duality" }

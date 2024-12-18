@@ -3,6 +3,14 @@
 version = 3
 
 [[package]]
+name = "duality"
+version = "0.1.0"
+dependencies = [
+ "negative",
+ "positive",
+]
+
+[[package]]
 name = "negative"
 version = "0.1.0"
 
@@ -21,6 +29,7 @@ version = "0.1.0"
 name = "unity"
 version = "0.1.0"
 dependencies = [
+ "duality",
  "negative",
  "nonpolar",
  "positive",

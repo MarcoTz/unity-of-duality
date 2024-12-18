@@ -12,7 +12,7 @@ impl Judgement for AtomAbsurd {
 
     fn conclusion(&self) -> Conclusion {
         Conclusion::Absurd(
-            ContextJudgement::Absurd(self.atom.clone().into()).into(),
+            ContextJudgement::Absurd(self.atom.clone()).into(),
             self.atom.clone().into(),
         )
     }

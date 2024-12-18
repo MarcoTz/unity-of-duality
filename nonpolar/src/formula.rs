@@ -12,7 +12,7 @@ pub enum Formula {
 }
 
 impl Formula {
-    pub fn neg(f: Formula) -> Formula {
+    pub fn inv(f: Formula) -> Formula {
         Formula::Neg(Box::new(f))
     }
 

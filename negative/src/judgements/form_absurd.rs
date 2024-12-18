@@ -14,7 +14,7 @@ impl Judgement for FormAbsurd {
                 self.premise_context.clone().into(),
                 self.premise_formula.clone(),
             ),
-            Conclusion::Ctx(self.context.clone(), self.premise_context.clone().into()),
+            Conclusion::Ctx(self.context.clone(), self.premise_context.clone()),
         ]
     }
 
