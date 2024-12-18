@@ -1,29 +1,17 @@
 use super::Dual;
-use crate::negative::judgements::Conclusion as NegConc;
-use crate::positive::judgements::Conclusion as PosConc;
+use crate::judgements::Conclusion;
 
-impl Dual for PosConc {
-    type Target = NegConc;
+impl Dual for Conclusion {
+    type Target = Conclusion;
     fn dual(self) -> Self::Target {
         match self {
-            PosConc::Triv(ctx, form) => NegConc::Absurd(ctx.dual(), form.dual()),
-            PosConc::False(ctx, form) => NegConc::True(ctx.dual(), form.dual()),
-            PosConc::Ctx(ctx, ctx_lin) => NegConc::Ctx(ctx.dual(), ctx_lin.dual()),
-            PosConc::Contra(ctx) => NegConc::Contra(ctx.dual()),
-            PosConc::Contains(ctx, judg) => NegConc::Contains(ctx.dual(), judg.dual()),
-        }
-    }
-}
-
-impl Dual for NegConc {
-    type Target = PosConc;
-    fn dual(self) -> Self::Target {
-        match self {
-            NegConc::Absurd(ctx, form) => PosConc::Triv(ctx.dual(), form.dual()),
-            NegConc::True(ctx, form) => PosConc::False(ctx.dual(), form.dual()),
-            NegConc::Ctx(ctx, ctx_lin) => PosConc::Ctx(ctx.dual(), ctx_lin.dual()),
-            NegConc::Contra(ctx) => PosConc::Contra(ctx.dual()),
-            NegConc::Contains(ctx, ctx_lin) => PosConc::Contains(ctx.dual(), ctx_lin.dual()),
+            Conclusion::Triv(ctx, form) => Conclusion::Absurd(ctx.dual(), form.dual()),
+            Conclusion::False(ctx, form) => Conclusion::True(ctx.dual(), form.dual()),
+            Conclusion::Ctx(ctx, ctx_lin) => Conclusion::Ctx(ctx.dual(), ctx_lin.dual()),
+            Conclusion::Contra(ctx) => Conclusion::Contra(ctx.dual()),
+            Conclusion::Contains(ctx, judg) => Conclusion::Contains(ctx.dual(), judg.dual()),
+            Conclusion::Absurd(ctx, form) => Conclusion::Triv(ctx.dual(), form.dual()),
+            Conclusion::True(ctx, form) => Conclusion::False(ctx.dual(), form.dual()),
         }
     }
 }
