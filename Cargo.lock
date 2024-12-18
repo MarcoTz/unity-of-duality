@@ -3,34 +3,5 @@
 version = 3
 
 [[package]]
-name = "duality"
+name = "unity-of-duality"
 version = "0.1.0"
-dependencies = [
- "negative",
- "positive",
-]
-
-[[package]]
-name = "negative"
-version = "0.1.0"
-
-[[package]]
-name = "nonpolar"
-version = "0.1.0"
-dependencies = [
- "positive",
-]
-
-[[package]]
-name = "positive"
-version = "0.1.0"
-
-[[package]]
-name = "unity"
-version = "0.1.0"
-dependencies = [
- "duality",
- "negative",
- "nonpolar",
- "positive",
-]
