@@ -6,12 +6,12 @@ use crate::{
 };
 
 pub struct PairVal {
-    pub context_left: LinearContext,
-    pub term_left: Term,
-    pub ty_left: Type,
-    pub context_right: LinearContext,
-    pub term_right: Term,
-    pub ty_right: Type,
+    context_left: LinearContext,
+    term_left: Term,
+    ty_left: Type,
+    context_right: LinearContext,
+    term_right: Term,
+    ty_right: Type,
 }
 
 impl Judgement for PairVal {

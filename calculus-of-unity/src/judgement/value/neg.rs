@@ -7,8 +7,8 @@ use crate::{
 };
 
 pub struct CovarVal {
-    pub covar: Covar,
-    pub ty: Type,
+    covar: Covar,
+    ty: Type,
 }
 
 impl Judgement for CovarVal {

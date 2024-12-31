@@ -7,11 +7,11 @@ use crate::{
 };
 
 pub struct ValSubst {
-    pub linear_context: LinearContext,
-    pub term: Term,
-    pub ty: Type,
-    pub context: Context,
-    pub subst: Substitution,
+    linear_context: LinearContext,
+    term: Term,
+    ty: Type,
+    context: Context,
+    subst: Substitution,
 }
 impl Judgement for ValSubst {
     fn premises(&self) -> Vec<Conclusion> {

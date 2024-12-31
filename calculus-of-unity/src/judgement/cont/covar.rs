@@ -7,9 +7,9 @@ use crate::{
 };
 
 pub struct CovarCont {
-    pub covar: Covar,
-    pub context: Context,
-    pub ty: Type,
+    covar: Covar,
+    context: Context,
+    ty: Type,
 }
 
 impl Judgement for CovarCont {

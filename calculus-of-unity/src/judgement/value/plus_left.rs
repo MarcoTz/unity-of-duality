@@ -6,10 +6,10 @@ use crate::{
 };
 
 pub struct PlusLeft {
-    pub context: LinearContext,
-    pub term: Term,
-    pub ty_left: Type,
-    pub ty_right: Type,
+    context: LinearContext,
+    term: Term,
+    ty_left: Type,
+    ty_right: Type,
 }
 
 impl Judgement for PlusLeft {
