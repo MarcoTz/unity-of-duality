@@ -1,3 +1,7 @@
+use crate::{
+    context::{ContextJudgement, LinearContext},
+    terms::Term,
+};
 pub type TypeVar = String;
 
 #[derive(Clone, PartialEq, Eq)]
@@ -47,6 +51,48 @@ impl Type {
             Some((*left, *right))
         } else {
             None
+        }
+    }
+
+    pub fn patterns(self) -> Vec<(LinearContext, Term)> {
+        match self {
+            Type::Var(v) => vec![(
+                ContextJudgement::Value("x".to_owned(), v).into(),
+                Term::var("x"),
+            )],
+            Type::Neg(ty) => vec![(
+                ContextJudgement::Continuation("u".to_owned(), *ty).into(),
+                Term::covar("u"),
+            )],
+            Type::One => vec![(LinearContext::default(), Term::Unit)],
+            Type::Times(ty1, ty2) => {
+                let fst_patterns = ty1.patterns();
+                let snd_patterns = ty2.patterns();
+                let mut times_patterns = vec![];
+                for (fst_ctx, fst_term) in fst_patterns.iter() {
+                    for (snd_ctx, snd_term) in snd_patterns.iter() {
+                        times_patterns.push((
+                            fst_ctx.clone().combine(snd_ctx.clone()),
+                            Term::pair(fst_term.clone(), snd_term.clone()),
+                        ));
+                    }
+                }
+                times_patterns
+            }
+            Type::Plus(left, right) => {
+                let mut patterns: Vec<(LinearContext, Term)> = left
+                    .patterns()
+                    .into_iter()
+                    .map(|(ctx, t)| (ctx, Term::inl(t)))
+                    .collect();
+                patterns.extend(
+                    right
+                        .patterns()
+                        .into_iter()
+                        .map(|(ctx, t)| (ctx, Term::inr(t))),
+                );
+                patterns
+            }
         }
     }
 }
