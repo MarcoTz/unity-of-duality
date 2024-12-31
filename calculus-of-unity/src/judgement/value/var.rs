@@ -1,6 +1,7 @@
 use crate::{
     context::ContextJudgement,
     judgement::{Conclusion, Judgement, JudgementKind},
+    terms::Term,
     types::TypeVar,
     Var,
 };
@@ -17,7 +18,7 @@ impl Judgement for VarVal {
     fn conclusion(&self) -> Conclusion {
         Conclusion::Val(
             ContextJudgement::Value(self.var.clone(), self.ty.clone()).into(),
-            self.var.clone().into(),
+            Term::var(&self.var),
             self.ty.clone().into(),
         )
     }

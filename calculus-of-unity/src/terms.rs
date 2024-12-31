@@ -11,6 +11,14 @@ pub enum Term {
 }
 
 impl Term {
+    pub fn var(var: &str) -> Term {
+        Term::Var(var.to_owned())
+    }
+
+    pub fn covar(covar: &str) -> Term {
+        Term::Covar(covar.to_owned())
+    }
+
     pub fn pair(fst: Term, snd: Term) -> Term {
         Term::Pair(Box::new(fst), Box::new(snd))
     }
@@ -61,17 +69,5 @@ impl Term {
         } else {
             None
         }
-    }
-}
-
-impl From<&str> for Term {
-    fn from(s: &str) -> Term {
-        Term::Var(s.to_owned())
-    }
-}
-
-impl From<Var> for Term {
-    fn from(v: Var) -> Term {
-        Term::Var(v)
     }
 }
