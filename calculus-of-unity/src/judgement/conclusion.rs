@@ -1,5 +1,6 @@
 use crate::{
     context::{Context, LinearContext},
+    statements::Statement,
     substitution::Substitution,
     terms::Term,
     types::Type,
@@ -12,6 +13,7 @@ pub enum Conclusion {
     Cont(Context, Term, Type),
     Subst(Context, Substitution, LinearContext),
     Contains(Covar, Type, Context),
+    Stmt(Context, Statement),
 }
 
 impl Conclusion {
@@ -42,6 +44,14 @@ impl Conclusion {
     pub fn as_contains(self) -> Option<(Covar, Type, Context)> {
         if let Conclusion::Contains(cv, ty, ctx) = self {
             Some((cv, ty, ctx))
+        } else {
+            None
+        }
+    }
+
+    pub fn as_stmt(self) -> Option<(Context, Statement)> {
+        if let Conclusion::Stmt(ctx, stmt) = self {
+            Some((ctx, stmt))
         } else {
             None
         }

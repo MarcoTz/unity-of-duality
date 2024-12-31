@@ -1,5 +1,6 @@
 pub mod conclusion;
 pub mod cont;
+pub mod stmt;
 pub mod subst;
 pub mod value;
 
@@ -10,6 +11,7 @@ pub enum JudgementKind {
     NonLinearVal,
     Cont,
     Subst,
+    Statement,
 }
 
 pub trait Judgement: Sized {
