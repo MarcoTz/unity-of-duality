@@ -2,8 +2,7 @@ use crate::{
     context::ContextJudgement,
     coterms::Coterm,
     judgement::{Conclusion, Judgement, JudgementKind},
-    types::TypeVar,
-    Var,
+    TypeVar, Var,
 };
 
 pub struct CovalVar {

@@ -2,8 +2,7 @@ use crate::{
     context::ContextJudgement,
     judgement::{Conclusion, Judgement, JudgementKind},
     terms::Term,
-    types::TypeVar,
-    Var,
+    TypeVar, Var,
 };
 
 pub struct VarVal {

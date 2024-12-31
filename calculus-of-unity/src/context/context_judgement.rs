@@ -1,15 +1,12 @@
 use super::{Context, LinearContext};
-use crate::{
-    types::{Type, TypeVar},
-    Covar, Var,
-};
+use crate::{cotypes::Cotype, types::Type, Covar, TypeVar, Var};
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum ContextJudgement {
     Value(Var, TypeVar),
     Continuation(Covar, Type),
     Covalue(Var, TypeVar),
-    Expression(Covar, Type),
+    Expression(Covar, Cotype),
 }
 
 impl ContextJudgement {
@@ -37,7 +34,7 @@ impl ContextJudgement {
         }
     }
 
-    pub fn as_exp(self) -> Option<(Covar, Type)> {
+    pub fn as_exp(self) -> Option<(Covar, Cotype)> {
         if let ContextJudgement::Expression(covar, ty) = self {
             Some((covar, ty))
         } else {

@@ -3,8 +3,7 @@ use crate::{
     judgement::{Conclusion, Judgement, JudgementKind},
     substitution::{Substitution, SubstitutionBinding},
     terms::Term,
-    types::TypeVar,
-    Var,
+    TypeVar, Var,
 };
 
 pub struct SubstVar {

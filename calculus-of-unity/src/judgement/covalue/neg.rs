@@ -1,13 +1,13 @@
 use crate::{
     context::ContextJudgement,
     coterms::Coterm,
+    cotypes::Cotype,
     judgement::{Conclusion, Judgement, JudgementKind},
-    types::Type,
     Covar,
 };
 
 pub struct CovalNeg {
-    pub ty: Type,
+    pub ty: Cotype,
     pub covar: Covar,
 }
 
@@ -20,7 +20,7 @@ impl Judgement for CovalNeg {
         Conclusion::Coval(
             ContextJudgement::Expression(self.covar.clone(), self.ty.clone()).into(),
             Coterm::Covar(self.covar.clone()),
-            Type::ng(self.ty.clone()),
+            Cotype::negn(self.ty.clone()),
         )
     }
 

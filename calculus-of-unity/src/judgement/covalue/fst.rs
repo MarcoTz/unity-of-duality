@@ -1,15 +1,15 @@
 use crate::{
     context::LinearContext,
     coterms::Coterm,
+    cotypes::Cotype,
     judgement::{Conclusion, Judgement, JudgementKind},
-    types::Type,
 };
 
 pub struct CovalFst {
     linear_context: LinearContext,
     term: Coterm,
-    ty_left: Type,
-    ty_right: Type,
+    ty_left: Cotype,
+    ty_right: Cotype,
 }
 
 impl Judgement for CovalFst {
@@ -25,7 +25,7 @@ impl Judgement for CovalFst {
         Conclusion::Coval(
             self.linear_context.clone().into(),
             Coterm::fst(self.term.clone()),
-            Type::and(self.ty_left.clone(), self.ty_right.clone()),
+            Cotype::and(self.ty_left.clone(), self.ty_right.clone()),
         )
     }
 

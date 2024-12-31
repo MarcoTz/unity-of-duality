@@ -1,6 +1,7 @@
 use crate::{
     context::{Context, LinearContext},
     coterms::Coterm,
+    cotypes::Cotype,
     statements::Statement,
     substitution::Substitution,
     terms::Term,
@@ -12,7 +13,7 @@ use crate::{
 pub enum Conclusion {
     Val(Context, Term, Type),
     Cont(Context, Term, Type),
-    Coval(Context, Coterm, Type),
+    Coval(Context, Coterm, Cotype),
     Subst(Context, Substitution, LinearContext),
     Contains(Covar, Type, Context),
     Stmt(Context, Statement),
@@ -27,7 +28,7 @@ impl Conclusion {
         }
     }
 
-    pub fn as_coval(self) -> Option<(Context, Coterm, Type)> {
+    pub fn as_coval(self) -> Option<(Context, Coterm, Cotype)> {
         if let Conclusion::Coval(ctx, cot, ty) = self {
             Some((ctx, cot, ty))
         } else {
