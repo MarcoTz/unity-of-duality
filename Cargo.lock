@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "calculus-of-unity"
+version = "0.1.0"
+
+[[package]]
 name = "logic"
 version = "0.1.0"
 
@@ -10,5 +14,6 @@ version = "0.1.0"
 name = "unity-of-duality"
 version = "0.1.0"
 dependencies = [
+ "calculus-of-unity",
  "logic",
 ]
