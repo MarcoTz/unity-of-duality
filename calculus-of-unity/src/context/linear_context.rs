@@ -8,7 +8,7 @@ pub struct LinearContext {
 impl LinearContext {
     pub fn add(self, judg: ContextJudgement) -> LinearContext {
         let mut judgements = self.judgements;
-        judgements.push(judg);
+        judgements.insert(0, judg);
         LinearContext { judgements }
     }
 

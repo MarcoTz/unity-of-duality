@@ -3,26 +3,26 @@ use crate::{
     judgement::{Conclusion, Judgement, JudgementKind},
     substitution::{Substitution, SubstitutionBinding},
     terms::Term,
-    types::TypeVar,
-    Var,
+    types::Type,
+    Covar,
 };
 
-pub struct SubstVar {
+pub struct SubstCovar {
+    covar: Covar,
     context: Context,
-    subst: Substitution,
+    cont_term: Term,
+    cont_ty: Type,
     linear_context: LinearContext,
-    new_binding_from: Var,
-    new_binding_to: Var,
-    ty_var: TypeVar,
+    subst: Substitution,
 }
 
-impl Judgement for SubstVar {
+impl Judgement for SubstCovar {
     fn premises(&self) -> Vec<Conclusion> {
         vec![
-            Conclusion::Contains(
-                self.new_binding_to.clone(),
-                self.ty_var.clone().into(),
+            Conclusion::Cont(
                 self.context.clone(),
+                self.cont_term.clone(),
+                self.cont_ty.clone(),
             ),
             Conclusion::Subst(
                 self.context.clone(),
@@ -35,14 +35,16 @@ impl Judgement for SubstVar {
     fn conclusion(&self) -> Conclusion {
         Conclusion::Subst(
             self.context.clone(),
-            self.subst.clone().add(SubstitutionBinding::VarBinding {
-                from: self.new_binding_from.clone(),
-                to: Term::Var(self.new_binding_to.clone()),
+            self.subst.clone().add(SubstitutionBinding::CovarBinding {
+                from: self.covar.clone(),
+                to: self.cont_term.clone(),
             }),
-            self.linear_context.clone().add(ContextJudgement::Value(
-                self.new_binding_from.clone(),
-                self.ty_var.clone(),
-            )),
+            self.linear_context
+                .clone()
+                .add(ContextJudgement::Continuation(
+                    self.covar.clone(),
+                    self.cont_ty.clone(),
+                )),
         )
     }
 
@@ -55,23 +57,24 @@ impl Judgement for SubstVar {
             return None;
         }
         let premise_left = premises.first().unwrap().clone();
-        let (var, ty, ctx_left) = premise_left.as_contains()?;
-        let ty_var = ty.as_var()?;
+        let (ctx_left, t_left, ty_left) = premise_left.as_cont()?;
 
         let premise_right = premises.get(1).unwrap().clone();
-        let (ctx_right, subst, ctx_lin) = premise_right.as_subst()?;
+        let (ctx_right, subst_right, ctx_lin_right) = premise_right.as_subst()?;
 
         let (ctx_conc, mut subst_conc, mut ctx_lin_conc) = conclusion.as_subst()?;
-        if ctx_lin_conc.judgements.is_empty() {
-            return None;
-        }
-        let judgement_first = ctx_lin_conc.judgements.remove(0);
-        let (judg_var, judg_ty) = judgement_first.as_val()?;
+
         if subst_conc.0.is_empty() {
             return None;
         }
-        let subst_first = subst_conc.0.remove(0);
-        let (subst_var, subst_t) = subst_first.as_var()?;
+        let subst_fst = subst_conc.0.remove(0);
+        let (subst_covar, subst_term) = subst_fst.as_covar()?;
+
+        if ctx_lin_conc.judgements.is_empty() {
+            return None;
+        }
+        let judg_fst = ctx_lin_conc.judgements.remove(0);
+        let (judg_covar, judg_ty) = judg_fst.as_cont()?;
 
         if ctx_left != ctx_right {
             return None;
@@ -81,33 +84,33 @@ impl Judgement for SubstVar {
             return None;
         }
 
-        if ctx_lin_conc != ctx_lin {
+        if subst_conc != subst_right {
             return None;
         }
 
-        if subst_conc != subst {
+        if ctx_lin_right != ctx_lin_conc {
             return None;
         }
 
-        if Term::Var(var.clone()) != subst_t {
+        if judg_ty != ty_left {
             return None;
         }
 
-        if ty_var != judg_ty {
+        if subst_term != t_left {
             return None;
         }
 
-        if judg_var != subst_var {
+        if subst_covar != judg_covar {
             return None;
         }
 
-        Some(SubstVar {
+        Some(SubstCovar {
+            covar: judg_covar,
             context: ctx_conc,
-            subst: subst,
-            linear_context: ctx_lin,
-            new_binding_from: judg_var,
-            new_binding_to: var,
-            ty_var,
+            cont_term: subst_term,
+            cont_ty: ty_left,
+            linear_context: ctx_lin_conc,
+            subst: subst_conc,
         })
     }
 }
