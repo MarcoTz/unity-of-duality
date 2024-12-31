@@ -4,6 +4,7 @@ pub use conclusion::Conclusion;
 
 pub enum JudgementKind {
     LinearVal,
+    NonLinearVal,
 }
 
 pub trait Judgement: Sized {

@@ -4,7 +4,7 @@ pub mod linear_context;
 pub use context_judgement::ContextJudgement;
 pub use linear_context::LinearContext;
 
-#[derive(Clone, Default)]
+#[derive(Clone, Default, PartialEq, Eq)]
 pub struct Context {
     pub contexts: Vec<LinearContext>,
 }

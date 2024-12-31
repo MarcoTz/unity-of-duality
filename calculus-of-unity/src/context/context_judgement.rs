@@ -1,8 +1,8 @@
 use super::{Context, LinearContext};
 use crate::{
     coterms::Covar,
-    terms::Var,
     types::{Type, TypeVar},
+    Var,
 };
 
 #[derive(Clone, PartialEq, Eq)]

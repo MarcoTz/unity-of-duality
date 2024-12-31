@@ -1,5 +1,4 @@
-use super::Covar;
-pub type Var = String;
+use super::{Covar, Var};
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum Term {
