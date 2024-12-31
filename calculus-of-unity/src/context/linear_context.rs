@@ -6,6 +6,12 @@ pub struct LinearContext {
 }
 
 impl LinearContext {
+    pub fn add(self, judg: ContextJudgement) -> LinearContext {
+        let mut judgements = self.judgements;
+        judgements.push(judg);
+        LinearContext { judgements }
+    }
+
     pub fn as_judgement(self) -> Option<ContextJudgement> {
         if self.judgements.len() == 1 {
             self.judgements.first().cloned()

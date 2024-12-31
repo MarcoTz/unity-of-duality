@@ -1,6 +1,6 @@
 use crate::{terms::Term, Var};
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct SubstitutionBinding {
     pub from: Var,
     pub to: Term,
@@ -25,10 +25,16 @@ impl SubstitutionBinding {
     }
 }
 
-#[derive(Clone, Default)]
+#[derive(Clone, Default, PartialEq, Eq)]
 pub struct Substitution(pub Vec<SubstitutionBinding>);
 
 impl Substitution {
+    pub fn add(self, bnd: SubstitutionBinding) -> Substitution {
+        let mut new_bnds = self.0;
+        new_bnds.push(bnd);
+        Substitution(new_bnds)
+    }
+
     pub fn apply(self, term: Term) -> Term {
         let mut t = term;
         for bnd in self.0 {
