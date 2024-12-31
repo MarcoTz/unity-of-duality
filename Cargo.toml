@@ -2,3 +2,6 @@
 name = "unity-of-duality"
 version = "0.1.0"
 edition = "2021"
+
+[dependencies]
+logic = {path="./logic"}
