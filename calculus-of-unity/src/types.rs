@@ -11,6 +11,8 @@ pub enum Type {
     One,
     Times(Box<Type>, Box<Type>),
     Plus(Box<Type>, Box<Type>),
+    And(Box<Type>, Box<Type>),
+    Par(Box<Type>, Box<Type>),
 }
 
 impl Type {
@@ -24,6 +26,14 @@ impl Type {
 
     pub fn plus(left: Type, right: Type) -> Type {
         Type::Plus(Box::new(left), Box::new(right))
+    }
+
+    pub fn and(ty1: Type, ty2: Type) -> Type {
+        Type::And(Box::new(ty1), Box::new(ty2))
+    }
+
+    pub fn par(ty1: Type, ty2: Type) -> Type {
+        Type::Par(Box::new(ty1), Box::new(ty2))
     }
 
     pub fn as_var(self) -> Option<TypeVar> {
@@ -53,6 +63,22 @@ impl Type {
     pub fn as_plus(self) -> Option<(Type, Type)> {
         if let Type::Plus(left, right) = self {
             Some((*left, *right))
+        } else {
+            None
+        }
+    }
+
+    pub fn as_and(self) -> Option<(Type, Type)> {
+        if let Type::And(ty1, ty2) = self {
+            Some((*ty1, *ty2))
+        } else {
+            None
+        }
+    }
+
+    pub fn as_par(self) -> Option<(Type, Type)> {
+        if let Type::Par(ty1, ty2) = self {
+            Some((*ty1, *ty2))
         } else {
             None
         }
@@ -97,6 +123,8 @@ impl Type {
                 );
                 patterns
             }
+            Type::And(_, _) => vec![],
+            Type::Par(_, _) => vec![],
         }
     }
 }
