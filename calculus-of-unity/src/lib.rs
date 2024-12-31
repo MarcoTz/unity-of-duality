@@ -1,5 +1,7 @@
 pub mod context;
+pub mod coterms;
+pub mod judgement;
+pub mod terms;
 pub mod types;
 
-pub type Var = String;
 pub type Covar = String;
