@@ -1,6 +1,6 @@
 use super::{terms::Term, Covar};
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq)]
 pub enum Statement {
     CovarTerm(Covar, Term),
     TermTerm(Term, Term),

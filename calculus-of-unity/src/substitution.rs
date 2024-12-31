@@ -1,4 +1,4 @@
-use crate::{terms::Term, Covar, Var};
+use crate::{statements::Statement, terms::Term, Covar, Var};
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum SubstitutionBinding {
@@ -54,6 +54,34 @@ impl SubstitutionBinding {
             Term::Pair(fst, snd) => Term::pair(self.clone().apply(*fst), self.apply(*snd)),
             Term::Inl(t) => Term::inl(self.apply(*t)),
             Term::Inr(t) => Term::inr(self.apply(*t)),
+            Term::Pattern(stmts) => Term::Pattern(
+                stmts
+                    .into_iter()
+                    .map(|(t, stmt)| (self.clone().apply(t), self.clone().apply_stmt(stmt)))
+                    .collect(),
+            ),
+        }
+    }
+
+    pub fn apply_stmt(self, stmt: Statement) -> Statement {
+        match stmt {
+            Statement::CovarTerm(covar, term) => {
+                let term_subst = self.clone().apply(term);
+                if let SubstitutionBinding::CovarBinding { from, to } = self {
+                    if from == covar {
+                        Statement::TermTerm(to, term_subst)
+                    } else {
+                        Statement::CovarTerm(covar, term_subst)
+                    }
+                } else {
+                    Statement::CovarTerm(covar, term_subst)
+                }
+            }
+            Statement::TermTerm(t1, t2) => {
+                let t1_subst = self.clone().apply(t1);
+                let t2_subst = self.apply(t2);
+                Statement::TermTerm(t1_subst, t2_subst)
+            }
         }
     }
 }

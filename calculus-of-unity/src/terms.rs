@@ -1,4 +1,4 @@
-use super::{Covar, Var};
+use super::{statements::Statement, Covar, Var};
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum Term {
@@ -8,6 +8,7 @@ pub enum Term {
     Pair(Box<Term>, Box<Term>),
     Inl(Box<Term>),
     Inr(Box<Term>),
+    Pattern(Vec<(Term, Statement)>),
 }
 
 impl Term {
@@ -66,6 +67,14 @@ impl Term {
     pub fn as_inr(self) -> Option<Term> {
         if let Term::Inr(t) = self {
             Some(*t)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_pat(self) -> Option<Vec<(Term, Statement)>> {
+        if let Term::Pattern(pts) = self {
+            Some(pts)
         } else {
             None
         }
