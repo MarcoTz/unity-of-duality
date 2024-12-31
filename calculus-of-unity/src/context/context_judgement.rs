@@ -1,8 +1,7 @@
 use super::{Context, LinearContext};
 use crate::{
-    coterms::Covar,
     types::{Type, TypeVar},
-    Var,
+    Covar, Var,
 };
 
 #[derive(Clone, PartialEq, Eq)]
@@ -17,6 +16,14 @@ impl ContextJudgement {
     pub fn as_val(self) -> Option<(Var, TypeVar)> {
         if let ContextJudgement::Value(var, tyvar) = self {
             Some((var, tyvar))
+        } else {
+            None
+        }
+    }
+
+    pub fn as_coval(self) -> Option<(Var, TypeVar)> {
+        if let ContextJudgement::Covalue(covar, tyvar) = self {
+            Some((covar, tyvar))
         } else {
             None
         }

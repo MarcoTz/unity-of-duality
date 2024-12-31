@@ -1,5 +1,6 @@
 pub mod conclusion;
 pub mod cont;
+pub mod covalue;
 pub mod stmt;
 pub mod subst;
 pub mod value;
@@ -9,6 +10,7 @@ pub use conclusion::Conclusion;
 pub enum JudgementKind {
     LinearVal,
     NonLinearVal,
+    LinearCoval,
     Cont,
     Subst,
     Statement,
