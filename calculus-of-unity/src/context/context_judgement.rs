@@ -9,6 +9,8 @@ use crate::{
 pub enum ContextJudgement {
     Value(Var, TypeVar),
     Continuation(Covar, Type),
+    Covalue(Var, TypeVar),
+    Expression(Covar, Type),
 }
 
 impl ContextJudgement {
