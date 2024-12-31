@@ -14,6 +14,10 @@ pub enum Type {
 }
 
 impl Type {
+    pub fn ng(ty: Type) -> Type {
+        Type::Neg(Box::new(ty))
+    }
+
     pub fn times(fst: Type, snd: Type) -> Type {
         Type::Times(Box::new(fst), Box::new(snd))
     }

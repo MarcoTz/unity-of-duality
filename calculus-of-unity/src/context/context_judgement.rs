@@ -36,6 +36,14 @@ impl ContextJudgement {
             None
         }
     }
+
+    pub fn as_exp(self) -> Option<(Covar, Type)> {
+        if let ContextJudgement::Expression(covar, ty) = self {
+            Some((covar, ty))
+        } else {
+            None
+        }
+    }
 }
 
 impl From<ContextJudgement> for LinearContext {
