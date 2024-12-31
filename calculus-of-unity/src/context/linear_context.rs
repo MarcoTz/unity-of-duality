@@ -1,6 +1,6 @@
 use super::{Context, ContextJudgement};
 
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone, Default, PartialEq, Eq)]
 pub struct LinearContext {
     pub judgements: Vec<ContextJudgement>,
 }

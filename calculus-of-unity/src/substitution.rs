@@ -25,7 +25,7 @@ impl SubstitutionBinding {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct Substitution(pub Vec<SubstitutionBinding>);
 
 impl Substitution {
