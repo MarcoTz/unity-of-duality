@@ -4,6 +4,7 @@ use super::{Covar, Var};
 pub enum Coterm {
     Var(Var),
     Covar(Covar),
+    Counit,
     Fst(Box<Coterm>),
     Snd(Box<Coterm>),
 }

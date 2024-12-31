@@ -3,6 +3,7 @@ use super::TypeVar;
 #[derive(Clone, PartialEq, Eq)]
 pub enum Cotype {
     Var(TypeVar),
+    Bot,
     NegN(Box<Cotype>),
     And(Box<Cotype>, Box<Cotype>),
     Par(Box<Cotype>, Box<Cotype>),
