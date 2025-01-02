@@ -29,6 +29,10 @@ impl Type {
         Type::Plus(Box::new(left), Box::new(right))
     }
 
+    pub fn shift(ty: Cotype) -> Type {
+        Type::Shift(Box::new(ty))
+    }
+
     pub fn as_var(self) -> Option<TypeVar> {
         if let Type::Var(v) = self {
             Some(v)
@@ -56,6 +60,14 @@ impl Type {
     pub fn as_plus(self) -> Option<(Type, Type)> {
         if let Type::Plus(left, right) = self {
             Some((*left, *right))
+        } else {
+            None
+        }
+    }
+
+    pub fn as_shift(self) -> Option<Cotype> {
+        if let Type::Shift(cot) = self {
+            Some(*cot)
         } else {
             None
         }
