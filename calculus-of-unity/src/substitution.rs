@@ -115,6 +115,16 @@ impl SubstitutionBinding {
             Coterm::LPair(fst, snd) => {
                 Coterm::lpair(self.clone().apply_coterm(*fst), self.apply_coterm(*snd))
             }
+            Coterm::Copattern(pts) => Coterm::Copattern(
+                pts.into_iter()
+                    .map(|(cot, stmt)| {
+                        (
+                            self.clone().apply_coterm(cot),
+                            self.clone().apply_stmt(stmt),
+                        )
+                    })
+                    .collect(),
+            ),
         }
     }
 

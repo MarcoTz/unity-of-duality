@@ -1,4 +1,4 @@
-use super::{Covar, Var};
+use super::{statements::Statement, Covar, Var};
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum Coterm {
@@ -8,6 +8,7 @@ pub enum Coterm {
     Fst(Box<Coterm>),
     Snd(Box<Coterm>),
     LPair(Box<Coterm>, Box<Coterm>),
+    Copattern(Vec<(Coterm, Statement)>),
 }
 
 impl Coterm {
@@ -50,6 +51,14 @@ impl Coterm {
     pub fn as_snd(self) -> Option<Coterm> {
         if let Coterm::Snd(t) = self {
             Some(*t)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_pat(self) -> Option<Vec<(Coterm, Statement)>> {
+        if let Coterm::Copattern(pts) = self {
+            Some(pts)
         } else {
             None
         }
