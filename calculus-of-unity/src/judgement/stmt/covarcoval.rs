@@ -1,31 +1,31 @@
 use crate::{
     context::Context,
+    coterms::Coterm,
+    cotypes::Cotype,
     judgement::{Conclusion, Judgement, JudgementKind},
     statements::Statement,
-    terms::Term,
-    types::Type,
     Covar,
 };
 
-pub struct CovarStmt {
+pub struct StmtCovarCoval {
     covar: Covar,
-    ty: Type,
+    ty: Cotype,
     context: Context,
-    term: Term,
+    term: Coterm,
 }
 
-impl Judgement for CovarStmt {
+impl Judgement for StmtCovarCoval {
     fn premises(&self) -> Vec<Conclusion> {
         vec![
-            Conclusion::ContainsTy(self.covar.clone(), self.ty.clone(), self.context.clone()),
-            Conclusion::Val(self.context.clone(), self.term.clone(), self.ty.clone()),
+            Conclusion::ContainsCoty(self.covar.clone(), self.ty.clone(), self.context.clone()),
+            Conclusion::Coval(self.context.clone(), self.term.clone(), self.ty.clone()),
         ]
     }
 
     fn conclusion(&self) -> Conclusion {
         Conclusion::Stmt(
             self.context.clone(),
-            Statement::CovarTerm(self.covar.clone(), self.term.clone()),
+            Statement::CovarCoterm(self.covar.clone(), self.term.clone()),
         )
     }
 
@@ -39,14 +39,15 @@ impl Judgement for CovarStmt {
         }
 
         let premise_left = premises.first().unwrap().clone();
-        let (covar_left, ty_left, ctx_left) = premise_left.as_contains_ty()?;
+        let (cv_left, ty_left, ctx_left) = premise_left.as_contains_coty()?;
 
         let premise_right = premises.get(1).unwrap().clone();
-        let (ctx_right, t_right, ty_right) = premise_right.as_val()?;
+        let (ctx_right, t_right, ty_right) = premise_right.as_coval()?;
 
-        let (ctx_conc, stmt) = conclusion.as_stmt()?;
-        let (covar_conc, t_conc) = stmt.as_covarterm()?;
-        if covar_left != covar_conc {
+        let (ctx_conc, stmt_conc) = conclusion.as_stmt()?;
+        let (cv_conc, t_conc) = stmt_conc.as_covarcoterm()?;
+
+        if cv_left != cv_conc {
             return None;
         }
         if ty_left != ty_right {
@@ -62,11 +63,11 @@ impl Judgement for CovarStmt {
             return None;
         }
 
-        Some(CovarStmt {
-            covar: covar_conc,
+        Some(StmtCovarCoval {
+            covar: cv_left,
             ty: ty_left,
-            context: ctx_conc,
-            term: t_conc,
+            context: ctx_left,
+            term: t_right,
         })
     }
 }

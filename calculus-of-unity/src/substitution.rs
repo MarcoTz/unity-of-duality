@@ -137,6 +137,23 @@ impl SubstitutionBinding {
                 let t2_subst = self.apply_term(t2);
                 Statement::TermTerm(t1_subst, t2_subst)
             }
+            Statement::CovarCoterm(cv, t) => {
+                let t_subst = self.clone().apply_coterm(t);
+                let (from, to) = if let SubstitutionBinding::CovarCoterm { from, to } = self {
+                    (from, to)
+                } else {
+                    return Statement::CovarCoterm(cv, t_subst);
+                };
+                if cv == from {
+                    Statement::CotermCoterm(to, t_subst)
+                } else {
+                    Statement::CovarCoterm(cv, t_subst)
+                }
+            }
+            Statement::CotermCoterm(t1, t2) => Statement::CotermCoterm(
+                self.clone().apply_coterm(t1),
+                self.clone().apply_coterm(t2),
+            ),
         }
     }
 }
