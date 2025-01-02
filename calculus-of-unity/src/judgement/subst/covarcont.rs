@@ -7,7 +7,7 @@ use crate::{
     Covar,
 };
 
-pub struct SubstCovar {
+pub struct SubstCovarCont {
     covar: Covar,
     context: Context,
     cont_term: Term,
@@ -16,7 +16,7 @@ pub struct SubstCovar {
     subst: Substitution,
 }
 
-impl Judgement for SubstCovar {
+impl Judgement for SubstCovarCont {
     fn premises(&self) -> Vec<Conclusion> {
         vec![
             Conclusion::Cont(
@@ -104,7 +104,7 @@ impl Judgement for SubstCovar {
             return None;
         }
 
-        Some(SubstCovar {
+        Some(SubstCovarCont {
             covar: judg_covar,
             context: ctx_conc,
             cont_term: subst_term,
