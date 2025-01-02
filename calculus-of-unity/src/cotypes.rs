@@ -1,6 +1,7 @@
 use super::{
     context::{ContextJudgement, LinearContext},
     coterms::Coterm,
+    types::Type,
     TypeVar,
 };
 
@@ -12,6 +13,7 @@ pub enum Cotype {
     NegN(Box<Cotype>),
     And(Box<Cotype>, Box<Cotype>),
     Par(Box<Cotype>, Box<Cotype>),
+    Shift(Box<Type>),
 }
 
 impl Cotype {
@@ -87,6 +89,10 @@ impl Cotype {
             }
             Cotype::NegN(t) => Some(vec![(
                 ContextJudgement::Expression("u".to_owned(), *t).into(),
+                Coterm::Covar("u".to_owned()),
+            )]),
+            Cotype::Shift(ty) => Some(vec![(
+                ContextJudgement::Continuation("u".to_owned(), *ty).into(),
                 Coterm::Covar("u".to_owned()),
             )]),
         }

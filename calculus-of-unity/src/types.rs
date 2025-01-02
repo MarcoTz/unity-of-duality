@@ -1,5 +1,6 @@
 use crate::{
     context::{ContextJudgement, LinearContext},
+    cotypes::Cotype,
     terms::Term,
     TypeVar,
 };
@@ -12,6 +13,7 @@ pub enum Type {
     Zero,
     Times(Box<Type>, Box<Type>),
     Plus(Box<Type>, Box<Type>),
+    Shift(Box<Cotype>),
 }
 
 impl Type {
@@ -99,6 +101,10 @@ impl Type {
                 );
                 Some(patterns)
             }
+            Type::Shift(cot) => Some(vec![(
+                ContextJudgement::Expression("u".to_owned(), *cot).into(),
+                Term::Covar("u".to_owned()),
+            )]),
         }
     }
 }
