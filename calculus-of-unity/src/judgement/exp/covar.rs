@@ -1,20 +1,20 @@
 use crate::{
     context::Context,
+    coterms::Coterm,
+    cotypes::Cotype,
     judgement::{Conclusion, Judgement, JudgementKind},
-    terms::Term,
-    types::Type,
     Covar,
 };
 
-pub struct CovarCont {
+pub struct ExpCovar {
     covar: Covar,
+    ty: Cotype,
     context: Context,
-    ty: Type,
 }
 
-impl Judgement for CovarCont {
+impl Judgement for ExpCovar {
     fn premises(&self) -> Vec<Conclusion> {
-        vec![Conclusion::ContainsTy(
+        vec![Conclusion::ContainsCoty(
             self.covar.clone(),
             self.ty.clone(),
             self.context.clone(),
@@ -22,15 +22,15 @@ impl Judgement for CovarCont {
     }
 
     fn conclusion(&self) -> Conclusion {
-        Conclusion::Cont(
+        Conclusion::Exp(
             self.context.clone(),
-            Term::covar(&self.covar),
+            Coterm::Covar(self.covar.clone()),
             self.ty.clone(),
         )
     }
 
     fn kind(&self) -> JudgementKind {
-        JudgementKind::Cont
+        JudgementKind::Exp
     }
 
     fn new(premises: Vec<Conclusion>, conclusion: Conclusion) -> Option<Self> {
@@ -39,25 +39,25 @@ impl Judgement for CovarCont {
         }
 
         let premise = premises.first().unwrap().clone();
-        let (covar, ty, ctx) = premise.as_contains_ty()?;
-        let (conc_ctx, conc_t, conc_ty) = conclusion.as_cont()?;
+        let (prem_cv, prem_ty, prem_ctx) = premise.as_contains_coty()?;
+
+        let (conc_ctx, conc_t, conc_ty) = conclusion.as_exp()?;
         let conc_cv = conc_t.as_covar()?;
 
-        if ctx != conc_ctx {
+        if prem_cv != conc_cv {
+            return None;
+        }
+        if prem_ty != conc_ty {
+            return None;
+        }
+        if prem_ctx != conc_ctx {
             return None;
         }
 
-        if conc_cv != covar {
-            return None;
-        }
-
-        if ty != conc_ty {
-            return None;
-        }
-        Some(CovarCont {
-            context: conc_ctx,
-            covar,
-            ty,
+        Some(ExpCovar {
+            covar: prem_cv,
+            ty: prem_ty,
+            context: prem_ctx,
         })
     }
 }

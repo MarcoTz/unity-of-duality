@@ -14,8 +14,10 @@ pub enum Conclusion {
     Val(Context, Term, Type),
     Cont(Context, Term, Type),
     Coval(Context, Coterm, Cotype),
+    Exp(Context, Coterm, Cotype),
     Subst(Context, Substitution, LinearContext),
-    Contains(Covar, Type, Context),
+    ContainsTy(Covar, Type, Context),
+    ContainsCoty(Covar, Cotype, Context),
     Stmt(Context, Statement),
 }
 
@@ -52,8 +54,24 @@ impl Conclusion {
         }
     }
 
-    pub fn as_contains(self) -> Option<(Covar, Type, Context)> {
-        if let Conclusion::Contains(cv, ty, ctx) = self {
+    pub fn as_exp(self) -> Option<(Context, Coterm, Cotype)> {
+        if let Conclusion::Exp(ctx, t, ty) = self {
+            Some((ctx, t, ty))
+        } else {
+            None
+        }
+    }
+
+    pub fn as_contains_ty(self) -> Option<(Covar, Type, Context)> {
+        if let Conclusion::ContainsTy(cv, ty, ctx) = self {
+            Some((cv, ty, ctx))
+        } else {
+            None
+        }
+    }
+
+    pub fn as_contains_coty(self) -> Option<(Covar, Cotype, Context)> {
+        if let Conclusion::ContainsCoty(cv, ty, ctx) = self {
             Some((cv, ty, ctx))
         } else {
             None

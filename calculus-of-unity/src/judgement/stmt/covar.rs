@@ -17,7 +17,7 @@ pub struct CovarStmt {
 impl Judgement for CovarStmt {
     fn premises(&self) -> Vec<Conclusion> {
         vec![
-            Conclusion::Contains(self.covar.clone(), self.ty.clone(), self.context.clone()),
+            Conclusion::ContainsTy(self.covar.clone(), self.ty.clone(), self.context.clone()),
             Conclusion::Val(self.context.clone(), self.term.clone(), self.ty.clone()),
         ]
     }
@@ -39,7 +39,7 @@ impl Judgement for CovarStmt {
         }
 
         let premise_left = premises.first().unwrap().clone();
-        let (covar_left, ty_left, ctx_left) = premise_left.as_contains()?;
+        let (covar_left, ty_left, ctx_left) = premise_left.as_contains_ty()?;
 
         let premise_right = premises.get(1).unwrap().clone();
         let (ctx_right, t_right, ty_right) = premise_right.as_val()?;

@@ -18,7 +18,7 @@ pub struct SubstVar {
 impl Judgement for SubstVar {
     fn premises(&self) -> Vec<Conclusion> {
         vec![
-            Conclusion::Contains(
+            Conclusion::ContainsTy(
                 self.new_binding_to.clone(),
                 self.ty_var.clone().into(),
                 self.context.clone(),
@@ -54,7 +54,7 @@ impl Judgement for SubstVar {
             return None;
         }
         let premise_left = premises.first().unwrap().clone();
-        let (var, ty, ctx_left) = premise_left.as_contains()?;
+        let (var, ty, ctx_left) = premise_left.as_contains_ty()?;
         let ty_var = ty.as_var()?;
 
         let premise_right = premises.get(1).unwrap().clone();
