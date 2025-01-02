@@ -7,6 +7,7 @@ pub enum Coterm {
     Counit,
     Fst(Box<Coterm>),
     Snd(Box<Coterm>),
+    LPair(Box<Coterm>, Box<Coterm>),
 }
 
 impl Coterm {
@@ -16,6 +17,10 @@ impl Coterm {
 
     pub fn snd(ct: Coterm) -> Coterm {
         Coterm::Snd(Box::new(ct))
+    }
+
+    pub fn lpair(fst: Coterm, snd: Coterm) -> Coterm {
+        Coterm::LPair(Box::new(fst), Box::new(snd))
     }
 
     pub fn as_covar(self) -> Option<Covar> {
