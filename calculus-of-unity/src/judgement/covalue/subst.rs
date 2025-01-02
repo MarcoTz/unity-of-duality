@@ -1,22 +1,23 @@
 use crate::{
     context::{Context, LinearContext},
+    coterms::Coterm,
+    cotypes::Cotype,
     judgement::{Conclusion, Judgement, JudgementKind},
     substitution::Substitution,
-    terms::Term,
-    types::Type,
 };
 
-pub struct ValSubst {
+pub struct CovalSubst {
     linear_context: LinearContext,
-    term: Term,
-    ty: Type,
+    term: Coterm,
+    ty: Cotype,
     context: Context,
     subst: Substitution,
 }
-impl Judgement for ValSubst {
+
+impl Judgement for CovalSubst {
     fn premises(&self) -> Vec<Conclusion> {
         vec![
-            Conclusion::Val(
+            Conclusion::Coval(
                 self.linear_context.clone().into(),
                 self.term.clone(),
                 self.ty.clone(),
@@ -30,15 +31,15 @@ impl Judgement for ValSubst {
     }
 
     fn conclusion(&self) -> Conclusion {
-        Conclusion::Val(
+        Conclusion::Coval(
             self.context.clone(),
-            self.subst.clone().apply_term(self.term.clone()),
+            self.subst.clone().apply_coterm(self.term.clone()),
             self.ty.clone(),
         )
     }
 
     fn kind(&self) -> JudgementKind {
-        JudgementKind::NonLinearVal
+        JudgementKind::NonLinearCoval
     }
 
     fn new(premises: Vec<Conclusion>, conclusion: Conclusion) -> Option<Self> {
@@ -47,40 +48,33 @@ impl Judgement for ValSubst {
         }
 
         let premise_left = premises.first().unwrap().clone();
-        let (ctx_left, t_left, ty_left) = premise_left.as_val()?;
+        let (ctx_left, t_left, ty_left) = premise_left.as_coval()?;
         let ctx_left_lin = ctx_left.as_linear()?;
 
         let premise_right = premises.get(1).unwrap().clone();
-        let (ctx_right, subst, ctx_right_lin) = premise_right.as_subst()?;
+        let (ctx_right, subst_right, ctx_right_lin) = premise_right.as_subst()?;
 
-        let (conc_ctx, conc_t, conc_ty) = conclusion.as_val()?;
+        let (ctx_conc, t_conc, ty_conc) = conclusion.as_coval()?;
 
         if ctx_left_lin != ctx_right_lin {
             return None;
         }
-
-        if t_left != conc_t {
+        if t_conc != subst_right.clone().apply_coterm(t_left.clone()) {
+            return None;
+        }
+        if ty_conc != ty_left {
+            return None;
+        }
+        if ctx_conc != ctx_right {
             return None;
         }
 
-        if ty_left != conc_ty {
-            return None;
-        }
-
-        if ctx_right != conc_ctx {
-            return None;
-        }
-
-        if conc_t != subst.clone().apply_term(t_left) {
-            return None;
-        }
-
-        Some(ValSubst {
+        Some(CovalSubst {
             linear_context: ctx_left_lin,
-            term: conc_t,
-            ty: conc_ty,
-            context: conc_ctx,
-            subst,
+            term: t_left,
+            ty: ty_left,
+            context: ctx_right,
+            subst: subst_right,
         })
     }
 }

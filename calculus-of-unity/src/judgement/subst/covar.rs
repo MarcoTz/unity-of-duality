@@ -35,7 +35,7 @@ impl Judgement for SubstCovar {
     fn conclusion(&self) -> Conclusion {
         Conclusion::Subst(
             self.context.clone(),
-            self.subst.clone().add(SubstitutionBinding::CovarBinding {
+            self.subst.clone().add(SubstitutionBinding::CovarTerm {
                 from: self.covar.clone(),
                 to: self.cont_term.clone(),
             }),
@@ -68,7 +68,7 @@ impl Judgement for SubstCovar {
             return None;
         }
         let subst_fst = subst_conc.0.remove(0);
-        let (subst_covar, subst_term) = subst_fst.as_covar()?;
+        let (subst_covar, subst_term) = subst_fst.as_covar_term()?;
 
         if ctx_lin_conc.judgements.is_empty() {
             return None;

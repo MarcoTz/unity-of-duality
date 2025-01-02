@@ -34,7 +34,7 @@ impl Judgement for SubstVar {
     fn conclusion(&self) -> Conclusion {
         Conclusion::Subst(
             self.context.clone(),
-            self.subst.clone().add(SubstitutionBinding::VarBinding {
+            self.subst.clone().add(SubstitutionBinding::VarTerm {
                 from: self.new_binding_from.clone(),
                 to: Term::Var(self.new_binding_to.clone()),
             }),
@@ -70,7 +70,7 @@ impl Judgement for SubstVar {
             return None;
         }
         let subst_first = subst_conc.0.remove(0);
-        let (subst_var, subst_t) = subst_first.as_var()?;
+        let (subst_var, subst_t) = subst_first.as_var_term()?;
 
         if ctx_left != ctx_right {
             return None;
