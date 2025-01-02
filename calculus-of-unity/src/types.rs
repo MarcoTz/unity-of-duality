@@ -9,6 +9,7 @@ pub enum Type {
     Var(TypeVar),
     NegV(Box<Type>),
     One,
+    Zero,
     Times(Box<Type>, Box<Type>),
     Plus(Box<Type>, Box<Type>),
 }
@@ -58,20 +59,21 @@ impl Type {
         }
     }
 
-    pub fn patterns(self) -> Vec<(LinearContext, Term)> {
+    pub fn patterns(self) -> Option<Vec<(LinearContext, Term)>> {
         match self {
-            Type::Var(v) => vec![(
+            Type::Var(v) => Some(vec![(
                 ContextJudgement::Value("x".to_owned(), v).into(),
                 Term::var("x"),
-            )],
-            Type::NegV(ty) => vec![(
+            )]),
+            Type::NegV(ty) => Some(vec![(
                 ContextJudgement::Continuation("u".to_owned(), *ty).into(),
                 Term::covar("u"),
-            )],
-            Type::One => vec![(LinearContext::default(), Term::Unit)],
+            )]),
+            Type::One => Some(vec![(LinearContext::default(), Term::Unit)]),
+            Type::Zero => None,
             Type::Times(ty1, ty2) => {
-                let fst_patterns = ty1.patterns();
-                let snd_patterns = ty2.patterns();
+                let fst_patterns = ty1.patterns()?;
+                let snd_patterns = ty2.patterns()?;
                 let mut times_patterns = vec![];
                 for (fst_ctx, fst_term) in fst_patterns.iter() {
                     for (snd_ctx, snd_term) in snd_patterns.iter() {
@@ -81,21 +83,21 @@ impl Type {
                         ));
                     }
                 }
-                times_patterns
+                Some(times_patterns)
             }
             Type::Plus(left, right) => {
                 let mut patterns: Vec<(LinearContext, Term)> = left
-                    .patterns()
+                    .patterns()?
                     .into_iter()
                     .map(|(ctx, t)| (ctx, Term::inl(t)))
                     .collect();
                 patterns.extend(
                     right
-                        .patterns()
+                        .patterns()?
                         .into_iter()
                         .map(|(ctx, t)| (ctx, Term::inr(t))),
                 );
-                patterns
+                Some(patterns)
             }
         }
     }

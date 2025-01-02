@@ -15,7 +15,7 @@ pub struct ContPattern {
 impl Judgement for ContPattern {
     fn premises(&self) -> Vec<Conclusion> {
         let mut premises = vec![];
-        let patterns = self.ty.clone().patterns();
+        let patterns = self.ty.clone().patterns().unwrap();
         for (i, (ctx, _)) in patterns.into_iter().enumerate() {
             premises.push(Conclusion::Stmt(
                 self.context.clone().combine(ctx.into()),
@@ -31,6 +31,7 @@ impl Judgement for ContPattern {
             .ty
             .clone()
             .patterns()
+            .unwrap()
             .into_iter()
             .map(|(_, t)| t)
             .zip(self.statements.clone().into_iter())
@@ -49,7 +50,7 @@ impl Judgement for ContPattern {
     fn new(premises: Vec<Conclusion>, conclusion: Conclusion) -> Option<Self> {
         let (ctx, t, ty) = conclusion.as_cont()?;
         let pts = t.as_pat()?;
-        let patterns = ty.clone().patterns();
+        let patterns = ty.clone().patterns()?;
 
         if premises.len() != patterns.len() {
             return None;

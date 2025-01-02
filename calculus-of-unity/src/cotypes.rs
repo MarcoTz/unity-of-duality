@@ -1,9 +1,14 @@
-use super::TypeVar;
+use super::{
+    context::{ContextJudgement, LinearContext},
+    coterms::Coterm,
+    TypeVar,
+};
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum Cotype {
     Var(TypeVar),
     Bot,
+    Top,
     NegN(Box<Cotype>),
     And(Box<Cotype>, Box<Cotype>),
     Par(Box<Cotype>, Box<Cotype>),
@@ -51,6 +56,39 @@ impl Cotype {
             Some((*ty1, *ty2))
         } else {
             None
+        }
+    }
+
+    pub fn copatterns(self) -> Option<Vec<(LinearContext, Coterm)>> {
+        match self {
+            Cotype::Var(v) => Some(vec![(
+                ContextJudgement::Covalue("x".to_owned(), v).into(),
+                Coterm::Var("x".to_owned()),
+            )]),
+            Cotype::Bot => Some(vec![(LinearContext::default(), Coterm::Counit)]),
+            Cotype::Top => None,
+            Cotype::And(l, r) => {
+                let mut pts = l.copatterns()?;
+                pts.extend(r.copatterns()?);
+                Some(pts)
+            }
+            Cotype::Par(l, r) => {
+                let pts_left = l.copatterns()?;
+                let pts_right = r.copatterns()?;
+                let mut pts = vec![];
+                for (ctx_left, t_left) in pts_left.iter() {
+                    for (ctx_right, t_right) in pts_right.iter() {
+                        let new_ctx = ctx_left.clone().combine(ctx_right.clone());
+                        let new_t = Coterm::lpair(t_left.clone(), t_right.clone());
+                        pts.push((new_ctx, new_t))
+                    }
+                }
+                Some(pts)
+            }
+            Cotype::NegN(t) => Some(vec![(
+                ContextJudgement::Expression("u".to_owned(), *t).into(),
+                Coterm::Covar("u".to_owned()),
+            )]),
         }
     }
 }
