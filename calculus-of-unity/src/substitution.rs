@@ -164,6 +164,7 @@ impl SubstitutionBinding {
                 self.clone().apply_coterm(t1),
                 self.clone().apply_coterm(t2),
             ),
+            Statement::Done => Statement::Done,
         }
     }
 }

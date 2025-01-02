@@ -6,6 +6,7 @@ pub enum Statement {
     TermTerm(Term, Term),
     CovarCoterm(Covar, Coterm),
     CotermCoterm(Coterm, Coterm),
+    Done,
 }
 
 impl Statement {
