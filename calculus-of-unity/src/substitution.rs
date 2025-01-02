@@ -25,6 +25,22 @@ impl SubstitutionBinding {
         }
     }
 
+    pub fn as_var_coterm(self) -> Option<(Var, Coterm)> {
+        if let SubstitutionBinding::VarCoterm { from, to } = self {
+            Some((from, to))
+        } else {
+            None
+        }
+    }
+
+    pub fn as_covar_coterm(self) -> Option<(Covar, Coterm)> {
+        if let SubstitutionBinding::CovarCoterm { from, to } = self {
+            Some((from, to))
+        } else {
+            None
+        }
+    }
+
     pub fn apply_term(self, term: Term) -> Term {
         match term {
             Term::Var(v) => {

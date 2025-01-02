@@ -1,3 +1,4 @@
 pub mod covar;
 pub mod empty;
-pub mod var;
+pub mod varcoval;
+pub mod varval;
